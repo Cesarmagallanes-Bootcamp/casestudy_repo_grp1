@@ -1,0 +1,93 @@
+{
+  "Orders": [
+    {
+      "OrderNumber": "012201",
+      "CreationDate": "2025-01-01",
+      "ReceivingPlant": "9101",
+      "ReceivingPlantDesc": "Singapore",
+      "DeliveringPlant": "9102",
+      "DeliveringPlantDesc": "Malaysia",
+      "Status": "Created",
+      "Products": [
+        {
+          "ProductCode": "P002",
+          "ProductName": "Sony Bravia TV",
+          "Quantity": 1,
+          "PricePerQuantity": 30000
+        }
+      ]
+    },
+    {
+      "OrderNumber": "012202",
+      "CreationDate": "2025-01-02",
+      "ReceivingPlant": "9101",
+      "ReceivingPlantDesc": "Singapore",
+      "DeliveringPlant": "9102",
+      "DeliveringPlantDesc": "Malaysia",
+      "Status": "Released",
+      "Products": [
+        {
+          "ProductCode": "P109",
+          "ProductName": "Samsung TV",
+          "Quantity": 2,
+          "PricePerQuantity": 50000
+        }
+      ]
+    },
+    {
+      "OrderNumber": "012203",
+      "CreationDate": "2025-01-03",
+      "ReceivingPlant": "9101",
+      "ReceivingPlantDesc": "Singapore",
+      "DeliveringPlant": "9102",
+      "DeliveringPlantDesc": "Malaysia",
+      "Status": "Partially Completed",
+      "Products": [
+        {
+          "ProductCode": "P385",
+          "ProductName": "Philips TV",
+          "Quantity": 1,
+          "PricePerQuantity": 35000
+        }
+      ]
+    },
+    {
+      "OrderNumber": "012204",
+      "CreationDate": "2025-01-04",
+      "ReceivingPlant": "9101",
+      "ReceivingPlantDesc": "Singapore",
+      "DeliveringPlant": "9102",
+      "DeliveringPlantDesc": "Malaysia",
+      "Status": "Delivered",
+      "Products": [
+        {
+          "ProductCode": "P002",
+          "ProductName": "Sony Bravia TV",
+          "Quantity": 1,
+          "PricePerQuantity": 30000
+        },
+        {
+          "ProductCode": "P109",
+          "ProductName": "Samsung TV",
+          "Quantity": 2,
+          "PricePerQuantity": 50000
+        }
+      ]
+    }
+  ],
+  "Plants": [
+    { "PlantCode": "9101", "PlantDescription": "Singapore" },
+    { "PlantCode": "9102", "PlantDescription": "Malaysia" },
+    { "PlantCode": "9103", "PlantDescription": "Indonesia" },
+    { "PlantCode": "9104", "PlantDescription": "Thailand" },
+    { "PlantCode": "9105", "PlantDescription": "Philippines" }
+  ],
+  "Products": [
+    { "ProductCode": "P001", "ProductName": "LG TV", "PricePerQuantity": 25000 },
+    { "ProductCode": "P002", "ProductName": "Sony Bravia TV", "PricePerQuantity": 30000 },
+    { "ProductCode": "P109", "ProductName": "Samsung TV", "PricePerQuantity": 50000 },
+    { "ProductCode": "P385", "ProductName": "Philips TV", "PricePerQuantity": 35000 },
+    { "ProductCode": "P201", "ProductName": "Panasonic TV", "PricePerQuantity": 28000 },
+    { "ProductCode": "P301", "ProductName": "Toshiba TV", "PricePerQuantity": 22000 }
+  ]
+}

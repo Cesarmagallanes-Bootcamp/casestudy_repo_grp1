@@ -1,0 +1,48 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:l="sap.ui.layout"
+    xmlns:form="sap.ui.layout.form">
+
+    <Panel id="_IDGenPanel"
+        headerText="Order Detail"
+        class="sapUiSmallMarginBottom">
+
+        <form:SimpleForm
+            id="orderDetailForm"
+            editable="{viewModel>/isEditable}"
+            layout="ResponsiveGridLayout"
+            labelSpanL="4"
+            labelSpanM="4"
+            emptySpanL="0"
+            emptySpanM="0"
+            columnsL="2"
+            columnsM="2">
+
+            <form:content>
+
+                <Label id="_IDGenLabel4" text="Order Number" />
+                <Text id="orderNumber" text="" />
+
+                <Label id="_IDGenLabel5" text="Created On" />
+                <Text id="createdOn" text="" />
+
+                <Label id="_IDGenLabel6" text="Receiving Plant" />
+                <Text id="receivingPlant" text="" />
+
+                <Label id="_IDGenLabel7" text="Delivering Plant" />
+                <Text id="deliveringPlant" text="" />
+
+                <Label id="_IDGenLabel8" text="Status" />
+                <ObjectStatus
+                    id="orderStatus"
+                    text=""
+                    state="None" />
+
+            </form:content>
+
+        </form:SimpleForm>
+
+    </Panel>
+
+</core:FragmentDefinition>
