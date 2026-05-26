@@ -1,0 +1,165 @@
+
+<mvc:View
+    controllerName="sapips.training.casestudygrp1.controller.CreatePage"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:l="sap.ui.layout">
+
+    <Page id="createPage" title="Create Order" showNavButton="true" navButtonPress="onNavBack">
+
+        <content>
+            <VBox id="createBox" class="sapUiMediumMargin">
+
+                <!-- Start ofCreate Page Header -->
+                <Panel id="orderDetailsPanel"
+                       headerText="{i18n>orderDetail}"
+                       class="sapUiResponsiveMargin sapUiNoContentPadding">
+
+                    <VBox id="createContent" class="sapUiMediumMargin">
+
+                        <l:Grid id="orderDetailsGrid"
+                                defaultSpan="L12 M12 S12"
+                                hSpacing="2"
+                                vSpacing="1"
+                                class="sapUiSmallMarginTop">
+
+                            <l:content>
+
+                                <!-- Receiving Plant -->
+                                <HBox id="receivingPlantBox" alignItems="Center" justifyContent="Center">
+
+                                    <Label id="receivingPlantLabel"
+                                           text="{i18n>receivePlant}"
+                                           required="true"
+                                           width="150px"
+                                           textAlign="End"/>
+
+                                    <Input id="receivingPlantInput"
+                                           value="{createModel>/displayReceivingPlant}"
+                                           width="250px"
+                                           class="sapUiSmallMarginBegin"
+                                           showValueHelp="true"
+                                           valueHelpRequest="onOpenReceivingPlantDialog"
+                                           placeholder="Select Receiving Plant"/>
+                                </HBox>
+
+                                <!-- Delivering Plant -->
+                                <HBox id="deliveringPlantBox" alignItems="Center" justifyContent="Center">
+
+                                    <Label id="deliveringPlantLabel"
+                                           text="{i18n>delivPlant}"
+                                           required="true"
+                                           width="150px"
+                                           textAlign="End"/>
+
+                                    <Input id="deliveringPlantInput"
+                                           value="{createModel>/displayDeliveringPlant}"
+                                           width="250px"
+                                           class="sapUiSmallMarginBegin"
+                                           showValueHelp="true"
+                                           valueHelpRequest="onOpenDeliveringPlantDialog"
+                                           placeholder="Select Delivering Plant"/>
+                                </HBox>
+
+                            </l:content>
+                        </l:Grid>
+
+                    </VBox>
+                </Panel>
+                <!-- End of Create Page Header -->
+
+                <!-- Start of Product Table -->
+                <Panel id="productPanel"
+                       headerText="Product ({= ${createModel>/products} ? ${createModel>/products}.length : 0 })"
+                       class="sapUiResponsiveMargin">
+
+                    <Toolbar id="productToolbar">
+                        <ToolbarSpacer id="productToolbarSpacer"/>
+                        <Button id="addProductButton"
+                                icon="sap-icon://add"
+                                press="onAddProduct"/>
+                        <Button id="deleteProductButton"
+                                icon="sap-icon://delete"
+                                press="onDeleteProduct"/>
+                    </Toolbar>
+
+                    <Table id="productTable"
+                           items="{createModel>/products}"
+                           mode="MultiSelect"
+                           fixedLayout="true"
+                           width="100%"
+                           noDataText="No products added">
+
+                        <columns>
+
+                            <Column id="productNameColumn">
+                                <Text id="productNameText" text="{i18n>productname}"/>
+                            </Column>
+
+                            <Column id="quantityColumn" hAlign="End">
+                                <Text id="quantityText" text="{i18n>quantity}"/>
+                            </Column>
+
+                            <Column id="pricePerQuantityColumn" hAlign="End">
+                                <Text id="pricePerQuantityText" text="{i18n>pricePerQuantity}"/>
+                            </Column>
+
+                            <Column id="totalPriceColumn" hAlign="End">
+                                <Text id="totalPriceText" text="{i18n>totalPrice}"/>
+                            </Column>
+
+                        </columns>
+
+                        <items>
+                            <ColumnListItem id="productListItem">
+                                <cells>
+
+                                    <Text id="productNameTxt"
+                                          text="{createModel>ProductName}"/>
+
+                                    <Input id="quantityInput"
+                                           value="{createModel>Quantity}"
+                                           type="Number"
+                                           width="80px"
+                                           textAlign="Center"
+                                           liveChange="onQuantityValidate"/>
+
+                                    <Text id="pricePerQuantityTxt"
+                                          text="{createModel>PricePerQuantity}"
+                                          textAlign="End"/>
+
+                                    <Text id="totalPriceTxt"
+                                          text="{createModel>TotalPrice}"
+                                          textAlign="End"/>
+
+                                </cells>
+                            </ColumnListItem>
+                        </items>
+
+                    </Table>
+
+                </Panel>
+                <!-- End of Product Table -->
+
+            </VBox>
+        </content>
+
+        <!-- Cancel and Save Buttons -->
+        <footer>
+            <Toolbar id="footerToolbar">
+                <ToolbarSpacer id="footerToolbarSpacer"/>
+
+                <Button id="saveButton"
+                        text="{i18n>save}"
+                        type="Emphasized"
+                        press="onSave"/>
+
+                <Button id="cancelButton"
+                        text="{i18n>cancel}"
+                        type="Reject"
+                        press="onCancel"/>
+            </Toolbar>
+        </footer>
+
+    </Page>
+</mvc:View>
