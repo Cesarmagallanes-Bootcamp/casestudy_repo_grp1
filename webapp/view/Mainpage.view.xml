@@ -6,41 +6,41 @@
     xmlns:core="sap.ui.core"
     displayBlock="true">
 
-    <Page id="_IDGenPage" title="Order Management">
+    <Page id="_IDGenPage" title="{i18n>title}">
 
         <content>
-            <VBox id="_IDGenVBox" class="sapUiSmallMargin">
+            <VBox id="_MainPageBox" class="sapUiSmallMargin">
 
                 <!-- Filters -->
-                <l:Grid id="_IDGenGrid"
+                <l:Grid id="_FilterGrid"
                     defaultSpan="L4 M4 S12"
                     class="sapUiSmallMarginBottom">
 
                     <l:content>
 
-                        <VBox id="_IDGenVBox1">
-                            <Label id="_IDGenLabel" text="Order Number"/>
+                        <VBox id="_FilterVBox1">
+                            <Label id="_FilterLabel" text="{i18n>orderNumber}"/>
                             <Input
                                 id="filterOrderNumber"
-                                placeholder="Order Number"/>
+                                placeholder="{i18n>orderNumber}"/>
                         </VBox>
 
-                        <VBox id="_IDGenVBox2">
-                            <Label id="_IDGenLabel1" text="Creation Date"/>
+                        <VBox id="_FilterVBox2">
+                            <Label id="_FilterLabel1" text="{i18n>creationDate}"/>
                             <DatePicker
                                 id="filterCreationDate"
                                 valueFormat="yyyy-MM-dd"
                                 displayFormat="dd MMM yyyy"/>
                         </VBox>
 
-                        <VBox id="_IDGenVBox3">
-                            <Label id="_IDGenLabel2" text="Status"/>
+                        <VBox id="_FilterVBox3">
+                            <Label id="_FilterLabel2" text="{i18n>status}"/>
                             <MultiComboBox id="filterStatus">
                                 <items>
-                                    <core:Item id="_IDGenItem" key="Created" text="Created"/>
-                                    <core:Item id="_IDGenItem1" key="Released" text="Released"/>
-                                    <core:Item id="_IDGenItem2" key="Partially Completed" text="Partially Completed"/>
-                                    <core:Item id="_IDGenItem3" key="Delivered" text="Delivered"/>
+                                    <core:Item id="_createdItem" key="Created" text="{i18n>createdTxt}"/>
+                                    <core:Item id="_releasedItem" key="Released" text="{i18n>releasedTxt}"/>
+                                    <core:Item id="_partiallyCompletedItem" key="Partially Completed" text="{i18n>completedTxt}"/>
+                                    <core:Item id="_deliveredItem" key="Delivered" text="{i18n>deliveredTxt}"/>
                                 </items>
                             </MultiComboBox>
                         </VBox>
@@ -49,18 +49,18 @@
                 </l:Grid>
 
                 <!-- Buttons -->
-                <HBox id="_IDGenHBox"
+                <HBox id="_ButtonsHBox"
                     justifyContent="End"
                     class="sapUiSmallMarginBottom">
 
-                    <Button id="_IDGenButton"
-                        text="Go"
+                    <Button id="_GoButton"
+                        text="{i18n>goBtn}"
                         type="Emphasized"
                         press="onSearch"
                         class="sapUiSmallMarginEnd"/>
 
-                    <Button id="_IDGenButton1"
-                        text="Clear"
+                    <Button id="_ClearButton"
+                        text="{i18n>clearBtn}"
                         press="onClear"/>
                         
                 </HBox>
@@ -74,40 +74,40 @@
                     growingThreshold="10">
 
                     <headerToolbar>
-                        <Toolbar id="_IDGenToolbar">
+                        <Toolbar id="_CreateAndDeleteToolbar">
                             <Title
                                 id="tableTitle"
                                 text="Orders (0)"/>
                             <ToolbarSpacer id="_IDGenToolbarSpacer"/>
-                            <Button id="_IDGenButton2"
+                            <Button id="_CreateButton"
                                 icon="sap-icon://add"
                                 press="onCreateOrder"/>
-                            <Button id="_IDGenButton3"
+                            <Button id="_DeleteButton"
                                 icon="sap-icon://delete"
                                 press="onDeleteOrder"/>
                         </Toolbar>
                     </headerToolbar>
 
                     <columns>
-                        <Column id="_IDGenColumn"><Text id="_IDGenText1" text="Order Number"/></Column>
-                        <Column id="_IDGenColumn1"><Text id="_IDGenText2" text="Creation Date"/></Column>
-                        <Column id="_IDGenColumn2"><Text id="_IDGenText3" text="Receiving Plant"/></Column>
-                        <Column id="_IDGenColumn3"><Text id="_IDGenText4" text="Delivering Plant"/></Column>
-                        <Column id="_IDGenColumn4"><Text id="_IDGenText5" text="Status"/></Column>
-                        <Column id="_IDGenColumn5"/>
+                        <Column id="_OrderNumberColumn"><Text id="_IDGenText1" text="{i18n>orderNum}"/></Column>
+                        <Column id="_CreationDateColumn"><Text id="_IDGenText2" text="{i18n>creationDate}"/></Column>
+                        <Column id="_ReceivingPlantColumn"><Text id="_IDGenText3" text="{i18n>receivePlant}"/></Column>
+                        <Column id="_DeliveringPlantColumn"><Text id="_IDGenText4" text="{i18n>delivPlant}"/></Column>
+                        <Column id="_StatusColumn"><Text id="_IDGenText5" text="{i18n>status}"/></Column>
+                        <Column id="_ExtraColumn"/>
                     </columns>
 
                     <items>
-                        <ColumnListItem id="_IDGenColumnListItem"
+                        <ColumnListItem id="_ColumnListItem"
                             type="Navigation"
                             press="onOrderPress">
 
                             <cells>
 
-                                <Text id="_IDGenText6" text="{OrderNumber}"/>
-                                <Text id="_IDGenText7" text="{CreationDate}"/>
-                                <Text id="_IDGenText8" text="{ReceivingPlant} - {ReceivingPlantDesc}"/>
-                                <Text id="_IDGenText9" text="{DeliveringPlant} - {DeliveringPlantDesc}"/>
+                                <Text id="_OrderNumberText" text="{OrderNumber}"/>
+                                <Text id="_CreationDateText" text="{CreationDate}"/>
+                                <Text id="_ReceivingPlantText" text="{ReceivingPlant} - {ReceivingPlantDesc}"/>
+                                <Text id="_DeliveringPlantText" text="{DeliveringPlant} - {DeliveringPlantDesc}"/>
 
                                 <ObjectStatus id="_IDGenObjectStatus"
                                     text="{Status}"

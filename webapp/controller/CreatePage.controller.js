@@ -416,7 +416,7 @@ sap.ui.define([
         },
         // Delete product from the table with confirmation and error handling for no selection
         onDeleteProduct: function () {
-            const oTable = this.byId("productTable");
+            const oTable = this.byId("productTableCreatePage");
             const aSelected = oTable.getSelectedItems();
             if (aSelected.length === 0) {
                 MessageBox.error("Please select an item from the table");

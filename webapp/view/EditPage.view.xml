@@ -10,7 +10,7 @@
 
         <content>
             <HBox id= "headerBox" justifyContent="Center" width="100%">
-                <VBox id="contentBox" width="100%" maxWidth="100%" class="sapUiResponsiveMargin">
+                <VBox id="contentBox" width="100%" class="sapUiResponsiveMargin">
 
                 <!-- Start of Order Details Header -->
                     <Panel id="OrderDetailsPanel">
@@ -41,10 +41,10 @@
                                 <Label id="lblStatus" text="{i18n>status}"/>
                                 <Select id="selectStatus" selectedKey="{editModel>/Status}">
                                     <items>
-                                        <core:Item id="itemCreated" key="Created" text="Created"/>
-                                        <core:Item id="itemReleased" key="Released" text="Released"/>
-                                        <core:Item id="itemPartiallyCompleted" key="Partially Completed" text="Partially Completed"/>
-                                        <core:Item id="itemDelivered" key="Delivered" text="Delivered"/>
+                                        <core:Item id="itemCreated" key="Created" text="{i18n>createdTxt}"/>
+                                        <core:Item id="itemReleased" key="Released" text="{i18n>releasedTxt}"/>
+                                        <core:Item id="itemPartiallyCompleted" key="Partially Completed" text="{i18n>completedTxt}"/>
+                                        <core:Item id="itemDelivered" key="Delivered" text="{i18n>deliveredTxt}"/>
                                     </items>
                                 </Select>
 
@@ -116,6 +116,7 @@
                                             <Input
                                                 id="inptQuantity"
                                                 value="{products>Quantity}"
+                                                type="Number"
                                                 width="100px"/>
 
                                             <Text id="itemPricePerQuantity"

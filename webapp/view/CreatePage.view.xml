@@ -5,7 +5,7 @@
     xmlns="sap.m"
     xmlns:l="sap.ui.layout">
 
-    <Page id="createPage" title="Create Order" showNavButton="true" navButtonPress="onNavBack">
+    <Page id="createPage" title="{i18n>createPageTitle}" showNavButton="true" navButtonPress="onNavBack">
 
         <content>
             <VBox id="createBox" class="sapUiMediumMargin">
@@ -75,15 +75,15 @@
 
                     <Toolbar id="productToolbar">
                         <ToolbarSpacer id="productToolbarSpacer"/>
-                        <Button id="addProductButton"
+                        <Button id="addProductButtonCreatePage"
                                 icon="sap-icon://add"
                                 press="onAddProduct"/>
-                        <Button id="deleteProductButton"
+                        <Button id="deleteProductButtonCreatePage"
                                 icon="sap-icon://delete"
                                 press="onDeleteProduct"/>
                     </Toolbar>
 
-                    <Table id="productTable"
+                    <Table id="productTableCreatePage"
                            items="{createModel>/products}"
                            mode="MultiSelect"
                            fixedLayout="true"
@@ -92,7 +92,7 @@
 
                         <columns>
 
-                            <Column id="productNameColumn">
+                            <Column id="productNameColumnCreatePage">
                                 <Text id="productNameText" text="{i18n>productname}"/>
                             </Column>
 
@@ -146,15 +146,15 @@
 
         <!-- Cancel and Save Buttons -->
         <footer>
-            <Toolbar id="footerToolbar">
+            <Toolbar id="footerToolbarCreatePage">
                 <ToolbarSpacer id="footerToolbarSpacer"/>
 
-                <Button id="saveButton"
+                <Button id="saveButtonCreatePage"
                         text="{i18n>save}"
                         type="Emphasized"
                         press="onSave"/>
 
-                <Button id="cancelButton"
+                <Button id="cancelButtonCreatePage"
                         text="{i18n>cancel}"
                         type="Reject"
                         press="onCancel"/>
