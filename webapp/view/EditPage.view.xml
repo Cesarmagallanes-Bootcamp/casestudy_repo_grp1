@@ -1,0 +1,156 @@
+
+<mvc:View
+    controllerName="sapips.training.casestudygrp1.controller.EditPage"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:f="sap.ui.layout.form">
+
+    <Page id="EditPage" title="{i18n>editTitle}" showNavButton="true" navButtonPress="onNavBack">
+
+        <content>
+            <HBox id= "headerBox" justifyContent="Center" width="100%">
+                <VBox id="contentBox" width="100%" maxWidth="100%" class="sapUiResponsiveMargin">
+
+                <!-- Start of Order Details Header -->
+                    <Panel id="OrderDetailsPanel">
+
+                        <headerToolbar>
+                            <Toolbar id="headerMainToolbar">
+                                <Title id="OrderDetailsTitle" text="{i18n>editHeaderToolbar}"/>
+                            </Toolbar>
+                        </headerToolbar>
+
+                        <content>
+
+                            <f:SimpleForm id="HeaderSimpleForm" layout="ResponsiveGridLayout" editable="true"
+                                columnsL="2" columnsM="2" labelSpanL="3" emptySpanL="4">
+
+                                <Label id="lblOrderNumber" text="{i18n>orderNumber}"/>
+                                <Input id="inputOrderNumber" value="{editModel>/OrderNumber}" editable="false"/>
+
+                                <Label id="lblCreatedOn" text="{i18n>createdOn}"/>
+                                <Input id="inputCreatedOn" value="{editModel>/CreationDate}" editable="false"/>
+
+                                <Label id="lblReceivingPlant" text="{i18n>receivePlant}"/>
+                                <Input id="inputReceivingPlant" value="{editModel>/ReceivingPlant}" editable="false"/>
+
+                                <Label id="lblDeliveringPlant" text="{i18n>delivPlant}"/>
+                                <Input id="inputDeliveringPlant" value="{editModel>/DeliveringPlant}" editable="false"/>
+
+                                <Label id="lblStatus" text="{i18n>status}"/>
+                                <Select id="selectStatus" selectedKey="{editModel>/Status}">
+                                    <items>
+                                        <core:Item id="itemCreated" key="Created" text="Created"/>
+                                        <core:Item id="itemReleased" key="Released" text="Released"/>
+                                        <core:Item id="itemPartiallyCompleted" key="Partially Completed" text="Partially Completed"/>
+                                        <core:Item id="itemDelivered" key="Delivered" text="Delivered"/>
+                                    </items>
+                                </Select>
+
+                            </f:SimpleForm>
+
+                        </content>
+                    </Panel>
+                    <!--End of Order Details Header-->
+
+                    <!-- Start of Product Table -->
+                    <Panel id="ProductTablePanel">
+
+                        <headerToolbar>
+                            <Toolbar id="productTableToolbar">
+                                <Title id="productHeaderTableTitle" text="Product ({= ${products>/}.length })"/>
+                                <ToolbarSpacer id="productTableSpacer"/>
+
+                            <!--Start of adding the button for Add and Delete-->
+                                <Button
+                                    id="addProductButton"
+                                    icon="sap-icon://add"
+                                    type="Transparent"
+                                    tooltip="Add Product"
+                                    press="onAddProduct"/>
+
+                                <Button
+                                    id="deleteProductButton"
+                                    icon="sap-icon://delete"
+                                    type="Transparent"
+                                    tooltip="Delete Product"
+                                    press="onDelete"
+                                    class="sapUiTinyMarginBegin"/>
+                            <!--End of adding the button for Add and Delete-->   
+
+                            </Toolbar>
+                        </headerToolbar>
+
+                        <content>
+
+                            <Table
+                                id="productMainTable"
+                                mode="MultiSelect"
+                                items="{products>/}">
+
+                                <columns>
+                                    <Column id="productNameColumn">
+                                        <Text id="txtProductName" text="{i18n>productName}"/>
+                                    </Column>
+
+                                    <Column id="productQuantityColumn">
+                                        <Text id="txtQuantity" text="{i18n>quantity}"/>
+                                    </Column>
+
+                                    <Column id="productPricePerQuantityColumn">
+                                        <Text id="txtPricePerQuantity" text="{i18n>pricePerQuantity}"/>
+                                    </Column>
+
+                                    <Column id="productTotalPriceColumn">
+                                        <Text id="txtTotalPrice" text="{i18n>totalPrice}"/>
+                                    </Column>
+                                </columns>
+
+                                <items>
+                                    <ColumnListItem id="productTableItem">
+                                        <cells>
+
+                                            <Text id="itemProductName" text="{products>ProductName}"/>
+
+                                            <Input
+                                                id="inptQuantity"
+                                                value="{products>Quantity}"
+                                                width="100px"/>
+
+                                            <Text id="itemPricePerQuantity"
+                                                text="{= ${products>PricePerQuantity}.toLocaleString() }"/>
+
+                                            
+                                            <Text id="itemTotalPrice"
+                                                 text="{parts: ['products>Quantity','products>PricePerQuantity'], formatter: '.calculateTotal'}"/>
+
+                                        </cells>
+                                    </ColumnListItem>
+                                </items>
+
+                            </Table>
+
+                        </content>
+                    </Panel>
+
+                </VBox>
+
+            </HBox>
+
+        </content>
+            <!-- End of Product Table -->
+
+        <!-- Start of Save and Cancel Buttons -->
+
+        <footer>
+            <Toolbar id="footerToolbar">
+                <ToolbarSpacer id="footerSpacer"/>
+                <Button id="saveButton" text="{i18n>saveButton}" type="Emphasized" press="onSave"/>
+                <Button id="cancelButton" text="{i18n>cancelButton}" type="Reject" press="onCancel"/>
+            </Toolbar>
+        </footer>
+
+        <!-- End of Save and Cancel Buttons -->
+    </Page>
+</mvc:View>
