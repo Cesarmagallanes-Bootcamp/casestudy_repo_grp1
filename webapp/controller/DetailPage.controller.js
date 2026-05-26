@@ -3,7 +3,7 @@ sap.ui.define([
     "sap/ui/model/json/JSONModel"
 ], function (Controller, JSONModel) {
     "use strict";
-    return Controller.extend("com.ui5.gr1.casestudy.ordermanagement.controller.DetailPage", {
+    return Controller.extend("sapips.training.casestudygrp1.controller.DetailPage", {
         onInit: function () {
             var oViewModel = new JSONModel({
                 isEditable: false
