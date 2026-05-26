@@ -7,12 +7,12 @@
 >
     <Page
         id="detailPage"
-        title="Order Management"
+        title="{i18n>title}"
         showNavButton="true"
         navButtonPress="onNavBack"
     >
         <content>
-            <VBox id="_IDGenVBox5" class="sapUiSmallMargin">
+            <VBox id="_OrderDetailBox" class="sapUiSmallMargin">
                 <!-- Order Detail Fragment -->
                 <core:Fragment
                     fragmentName="sapips.training.casestudygrp1.fragment.OrderDetailForm"
@@ -28,15 +28,15 @@
         </content>
 
         <footer>
-            <Toolbar id="_IDGenToolbar1">
-                <ToolbarSpacer id="_IDGenToolbarSpacer1" />
-                <Button id="_IDGenButton5"
-                    text="Edit"
+            <Toolbar id="_FooterToolbar">
+                <ToolbarSpacer id="_ToolbarSpacer" />
+                <Button id="_EditButton"
+                    text="{i18n>edit}"
                     type="Emphasized"
                     press="onEdit"
                 />
-                <Button id="_IDGenButton6"
-                    text="Cancel"
+                <Button id="_CancelButton"
+                    text="{i18n>cancel}"
                     press="onNavBack"
                 />
             </Toolbar>
