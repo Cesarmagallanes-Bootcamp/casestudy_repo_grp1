@@ -15,12 +15,19 @@ sap.ui.define([
     return Controller.extend("sapips.training.casestudygrp1.controller.CreatePage", {
         onInit: function () {
             this._initCreateModel();
-            this._sPlantType = null;         // "receiving" | "delivering"
+            this._sPlantType = null;         
             this._pPlantDialog = null;      
-            this._oProductDialog = null;     // SelectDialog instance
-            this._aProductBaseFilters = [];  // base filters for product dialog (Delivering Plant)
+            this._oProductDialog = null;     
+            this._aProductBaseFilters = []; 
+
+            var oRouter = this.getOwnerComponent().getRouter();
+            oRouter.getRoute("CreatePage").attachPatternMatched(this._onRouteMatched, this);
         },
 
+        _onRouteMatched: function () {
+            this._resetCreateForm();
+            this._updateProductPanelHeader();
+        },
         //Data declaration for Create Page model with default values
         _initCreateModel: function () {
             const oCreateModel = new JSONModel({
@@ -66,7 +73,6 @@ sap.ui.define([
                 orderReceivingPlantDesc: "",
                 orderDeliveringPlantCode: "",
                 orderDeliveringPlantDesc: "",
-
                 creationDate: new Date(),
                 status: "Created",
                 products: []
@@ -150,26 +156,36 @@ sap.ui.define([
         // Save button with validation for entries in the table 
         _validateForSave: function () {
             const oModel = this.getModel("createModel");
-            const sRec = oModel.getProperty("/orderReceivingPlantCode");
-            const sDel = oModel.getProperty("/orderDeliveringPlantCode");
+            const sRecDisplay = oModel.getProperty("/displayReceivingPlant");
+            const sDelDisplay = oModel.getProperty("/displayDeliveringPlant");
             const aProducts = oModel.getProperty("/products") || [];
+            const aPlants = this.getOwnerComponent().getModel().getProperty("/Plants") || [];
 
             this._resetPlantValueStates();
             this._resetQuantityValueStates();
 
             // Plant Validation entry
-            if (!sRec || !sDel) {
-                this._setMissingPlantStates(!sRec, !sDel);
+            if (!sRecDisplay || !sDelDisplay) {
+            this._setMissingPlantStates(!sRecDisplay, !sDelDisplay);
                 MessageBox.error("Please select Receiving and Delivering Plants.");
+                return false;
+            }
+                //check if the entered plant codes exist in the master plant 
+            const bRecValid = aPlants.some(p => (p.PlantCode + " - " + p.PlantDescription) === sRecDisplay);
+            const bDelValid = aPlants.some(p => (p.PlantCode + " - " + p.PlantDescription) === sDelDisplay);
+
+            if (!bRecValid || !bDelValid) {
+                this._setMissingPlantStates(!bRecValid, !bDelValid);
+                MessageBox.error("Invalid Receiving and Delivering Plants. Please select from the list.");
                 return false;
             }
             // At least 1 product must be added to the order
             if (aProducts.length === 0) {
-                MessageBox.error("No product(s) added.");
+                MessageBox.error("Please add at least one product before saving.");
                 return false;
             }
             // Quantity Validation > 0, and numeric entries only 
-            const bInvalidQty = aProducts.some((p) => {
+                const bInvalidQty = aProducts.some((p) => {
                 const iQty = Number(p.Quantity);
                 return !p.Quantity || Number.isNaN(iQty) || iQty <= 0;
             });
@@ -179,8 +195,8 @@ sap.ui.define([
                 MessageBox.error("Quantity must be greater than 0.");
                 return false;
             }
-
             return true;
+            
         },
         // Plant field dialog for help
         onOpenReceivingPlantDialog: function () {
@@ -291,7 +307,7 @@ sap.ui.define([
             const aAllowedCodes = this._getAllowedProductCodesForPlant(sPlantCode);
             const aMap = this.getOwnerComponent().getModel().getProperty("/ProductPlantMap") || [];
 
-            // strict: if mapping exists but no allowed products for plant
+            // if mapping exists but no allowed products for plant
             if (aMap.length > 0 && aAllowedCodes.length === 0) {
                 MessageBox.error("No available products found for the selected Delivering Plant.");
                 return;
@@ -315,11 +331,21 @@ sap.ui.define([
             const sDisplayDel = oModel.getProperty("/displayDeliveringPlant");
 
             this._resetPlantValueStates();
-
+            
+            //Checks if Plant fields are empty
             if (!sDisplayRec || !sDisplayDel) {
                 this._setMissingPlantStates(!sDisplayRec, !sDisplayDel);
                 MessageBox.error("Please select Receiving and Delivering Plants.");
                 return;
+            }
+            //Checks if the Plant entries are valid
+            const aPlants = this.getOwnerComponent().getModel().getProperty("/Plants") || [];
+            const bRecValid = aPlants.some(p => (p.PlantCode + " - " + p.PlantDescription) === sDisplayRec);
+            const bDelValid = aPlants.some(p => (p.PlantCode + " - " + p.PlantDescription) === sDisplayDel);
+                if (!bRecValid || !bDelValid) {
+             this._setMissingPlantStates(!bRecValid, !bDelValid);
+                MessageBox.error("Invalid Receiving and Delivering Plants. Please select from the list.");
+             return;
             }
 
             this._openProductDialog();

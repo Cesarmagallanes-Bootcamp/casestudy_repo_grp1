@@ -181,7 +181,7 @@ sap.ui.define([
              oModel.refresh(true);
         },
 
-        //Not part of the requirement but added a functionality to add new products to the table for better user experience
+        //Adding products to the table using a Select Dialog with search functionality
         onAddProduct: function () {
             this._openProductDialog();
         },
