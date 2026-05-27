@@ -19,10 +19,10 @@
                     <l:content>
 
                         <VBox id="_FilterVBox1">
-                            <Label id="_FilterLabel" text="{i18n>orderNumber}"/>
+                            <Label id="_FilterLabel" text="{i18n>orderNum}"/>
                             <Input
                                 id="filterOrderNumber"
-                                placeholder="{i18n>orderNumber}"/>
+                                placeholder="{i18n>orderNum}"/>
                         </VBox>
 
                         <VBox id="_FilterVBox2">
