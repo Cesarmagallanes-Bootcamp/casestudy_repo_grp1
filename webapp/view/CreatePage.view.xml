@@ -96,7 +96,7 @@
                                 <Text id="productNameText" text="{i18n>productname}"/>
                             </Column>
 
-                            <Column id="quantityColumn" hAlign="End">
+                            <Column id="quantityColumn" hAlign="Center">
                                 <Text id="quantityText" text="{i18n>quantity}"/>
                             </Column>
 
@@ -115,13 +115,14 @@
                                 <cells>
 
                                     <Text id="productNameTxt"
-                                          text="{createModel>ProductName}"/>
+                                          text="{createModel>ProductName}"
+                                          textAlign="End"/>
 
                                     <Input id="quantityInput"
                                            value="{createModel>Quantity}"
                                            type="Number"
-                                           width="80px"
-                                           textAlign="Center"
+                                           width="25%"
+                                           textAlign="End"
                                            liveChange="onQuantityValidate"/>
 
                                     <Text id="pricePerQuantityTxt"

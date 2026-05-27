@@ -1,1 +1,28 @@
 /* Enter your custom styles here */
+/* Force stable column sizing */
+.createProductsTable .sapMListTbl {
+  table-layout: fixed !important;
+  width: 100% !important;
+}
+
+/* Apply widths to the <th> and <td> generated for each column */
+.createProductsTable .colProductName {
+  width: 45% !important;
+}
+
+.createProductsTable .colQty {
+  width: 15% !important;
+}
+
+.createProductsTable .colPPQ {
+  width: 20% !important;
+}
+
+.createProductsTable .colTotal {
+  width: 20% !important;
+}
+
+/* Optional: prevent header text from wrapping oddly */
+.createProductsTable .sapMListTblHeaderCell .sapMText {
+  white-space: nowrap;
+}

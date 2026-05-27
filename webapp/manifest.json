@@ -108,6 +108,13 @@
       "type": "XML",
       "id": "app",
       "async": true
-    }
+    },
+    
+"resources": {
+  "css": [
+    { "uri": "css/style.css" }
+  ]
+}
+
   }
 }
