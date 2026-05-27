@@ -37,6 +37,7 @@ sap.ui.define([
 
             this.getView().setModel(oCreateModel, "createModel");
             this.getView().getModel("createModel").setDefaultBindingMode("TwoWay");
+            this._updateProductPanelHeader();
         },
         getModel: function (sName) {
             return this.getView().getModel(sName);
@@ -108,13 +109,6 @@ sap.ui.define([
             }
         },
 
-        // Clears Receiving and Delivering Plant display fields after adding a product to encourage user to reselect plants for next product (if needed) and avoid confusion about which plants are associated with which products
-        _clearPlantDisplayFields: function () {
-            const oModel = this.getModel("createModel");
-            oModel.setProperty("/displayReceivingPlant", "");
-            oModel.setProperty("/displayDeliveringPlant", "");
-            this._resetPlantValueStates();
-        },
         // Remove validation errors from Quantity inputs and reset to default state (called before validating on save and when opening product dialog)
         _resetQuantityValueStates: function () {
             const oTable = this.byId("productTable");
@@ -166,12 +160,12 @@ sap.ui.define([
             // Plant Validation entry
             if (!sRec || !sDel) {
                 this._setMissingPlantStates(!sRec, !sDel);
-                MessageBox.error("Please complete the required fields.");
+                MessageBox.error("Please select Receiving and Delivering Plants.");
                 return false;
             }
             // At least 1 product must be added to the order
             if (aProducts.length === 0) {
-                MessageBox.error("Please add a Product.");
+                MessageBox.error("No product(s) added.");
                 return false;
             }
             // Quantity Validation > 0, and numeric entries only 
@@ -193,6 +187,7 @@ sap.ui.define([
             this._sPlantType = "receiving";
             this._openPlantDialog("Select Receiving Plant");
         },
+        
         onOpenDeliveringPlantDialog: function () {
             this._sPlantType = "delivering";
             this._openPlantDialog("Select Delivering Plant");
@@ -323,7 +318,7 @@ sap.ui.define([
 
             if (!sDisplayRec || !sDisplayDel) {
                 this._setMissingPlantStates(!sDisplayRec, !sDisplayDel);
-                MessageBox.error("Please complete the required fields.");
+                MessageBox.error("Please select Receiving and Delivering Plants.");
                 return;
             }
 
@@ -376,10 +371,10 @@ sap.ui.define([
             });
 
             oCreateModel.setProperty("/products", aItems);
+            //dynamic update on the Product () number in table header
+            this._updateProductPanelHeader();
 
-            // added a function that will clear the Receiving and Delivering Plants after adding it to the table
-            this._clearPlantDisplayFields();
-        },
+         },
         onProductCancel: function () {
         },
         // Quantity validation if an entry is a non 0 value
@@ -433,6 +428,8 @@ sap.ui.define([
                         aProducts = aProducts.filter(p => p !== oObj);
                     });
                     this.getModel("createModel").setProperty("/products", aProducts);
+                    //dynamic update on the Product () number in table header after deleting
+                    this._updateProductPanelHeader();
                     oTable.removeSelections(true);
                 }
             });
@@ -488,6 +485,14 @@ sap.ui.define([
                 }
             });
         },
+        //Dynamically updates the header text of the product panel based on the number of products added to the order
+        _updateProductPanelHeader: function () {
+            var aProducts = 
+            this.getModel("createModel").getProperty("/products") || [];
+            var sText = aProducts.length === 1 ? "Product (1)" : "Products (" + aProducts.length + ")";
+            this.byId("productPanel").setHeaderText(sText);
+            },
+
         //Date Formatter to match the required format in the Main Page table and details page
         _formatDate: function (vDate) {
             const oDate = vDate instanceof Date ? vDate : new Date(vDate);

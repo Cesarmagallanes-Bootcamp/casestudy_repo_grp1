@@ -70,7 +70,7 @@
 
                 <!-- Start of Product Table -->
                 <Panel id="productPanel"
-                       headerText="Product ({= ${createModel>/products} ? ${createModel>/products}.length : 0 })"
+                       headerText="Product(0)"
                        class="sapUiResponsiveMargin">
 
                     <Toolbar id="productToolbar">
@@ -129,7 +129,7 @@
                                           textAlign="End"/>
 
                                     <Text id="totalPriceTxt"
-                                          text="{createModel>TotalPrice}"
+                                          text="{createModel>TotalPrice}" 
                                           textAlign="End"/>
 
                                 </cells>

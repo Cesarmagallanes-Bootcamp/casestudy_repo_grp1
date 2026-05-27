@@ -26,10 +26,10 @@
                             <f:SimpleForm id="HeaderSimpleForm" layout="ResponsiveGridLayout" editable="true"
                                 columnsL="2" columnsM="2" labelSpanL="3" emptySpanL="4">
 
-                                <Label id="lblOrderNumber" text="{i18n>orderNumber}"/>
+                                <Label id="lblOrderNumber" text="{i18n>orderNum}"/>
                                 <Input id="inputOrderNumber" value="{editModel>/OrderNumber}" editable="false"/>
 
-                                <Label id="lblCreatedOn" text="{i18n>createdOn}"/>
+                                <Label id="lblCreatedOn" text="{i18n>createOn}"/>
                                 <Input id="inputCreatedOn" value="{editModel>/CreationDate}" editable="false"/>
 
                                 <Label id="lblReceivingPlant" text="{i18n>receivePlant}"/>
@@ -117,10 +117,11 @@
                                                 id="inptQuantity"
                                                 value="{products>Quantity}"
                                                 type="Number"
-                                                width="100px"/>
+                                                width="100px"
+                                                liveChange="onQuantityLiveChange"/>
 
                                             <Text id="itemPricePerQuantity"
-                                                text="{= ${products>PricePerQuantity}.toLocaleString() }"/>
+                                                text="{products>PricePerQuantity}"/>
 
                                             
                                             <Text id="itemTotalPrice"

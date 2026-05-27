@@ -2,8 +2,15 @@
 sap.ui.define([
     "sap/ui/core/mvc/Controller",
     "sap/ui/model/json/JSONModel",
-    "sap/m/MessageBox"
-], function (Controller, JSONModel, MessageBox) {
+    "sap/m/MessageBox",
+    "sap/m/SelectDialog",
+    "sap/m/StandardListItem",
+    "sap/ui/model/Filter",
+    "sap/ui/model/FilterOperator",
+    "sap/m/MessageToast"
+
+
+], function (Controller, JSONModel, MessageBox,SelectDialog, StandardListItem, Filter, FilterOperator, MessageToast) {
     "use strict";
 
     return Controller.extend("sapips.training.casestudygrp1.controller.EditPage", {
@@ -11,6 +18,7 @@ sap.ui.define([
         onInit: function () {
             var oRouter = this.getOwnerComponent().getRouter();
             oRouter.getRoute("EditPage").attachPatternMatched(this._onRouteMatched, this);
+            this._oProductDialog = null;
         },
         // Routing to the Edit Page
         _onRouteMatched: function (oEvent) {
@@ -35,17 +43,20 @@ sap.ui.define([
                 orderIndex: this._iOrderIndex
             });
         },
-        // Calculates price per quaantity 
+        // Calculates price per quantity 
         calculateTotal: function (qty, price) {
             qty = Number(qty);
             price = Number(price);
             if (!qty || !price) {
                 return 0;
             }
-            return qty * price;
+            return (qty * price);
         },
         // Saving the changes and navigating back to the Detail Page
         onSave: function () {
+            if (!this._validateBeforeSave()) {
+                return;
+            }
             var that = this;
             // Confrimation pop up before saving
             MessageBox.confirm(
@@ -92,6 +103,7 @@ sap.ui.define([
             }
 
             var that = this;
+
             // Confirmation message pop up before deleting the products from the table
             MessageBox.confirm(
                 "Are you sure you want to delete " + aSelectedItems.length + " selected product(s)?",
@@ -120,6 +132,8 @@ sap.ui.define([
                                 aData.splice(iIndex, 1);
                             });
                             oModel.setData(aData);
+
+                            that._updateProductTitle();
                         }
                     }
                 }
@@ -143,20 +157,141 @@ sap.ui.define([
          }
             );
         },
+        //Calculating the total price live as th user changes the entry
+        
+        onQuantityLiveChange: function (oEvent) {
+         var oInput = oEvent.getSource();
+         var sValue = (oInput.getValue() || "").trim();
+
+         // highlight empty / invalid quantity
+         var iQty = Number(sValue);
+
+         if (!sValue || Number.isNaN(iQty) || iQty <= 0) {
+             oInput.setValueState("Error");
+            oInput.setValueStateText("Entry must be a number greater than 0.");
+         } else {
+             oInput.setValueState("None");
+          oInput.setValueStateText("");
+         }
+         var oCtx = oInput.getBindingContext("products");
+         if (!oCtx) return;
+            var sPath = oCtx.getPath();
+             var oModel = this.getView().getModel("products");
+             oModel.setProperty(sPath + "/Quantity", Number.isNaN(iQty) ? 0 : iQty);
+             oModel.refresh(true);
+        },
+
         //Not part of the requirement but added a functionality to add new products to the table for better user experience
         onAddProduct: function () {
-        var oModel = this.getView().getModel("products");
-        var aData = oModel.getData();
-         if (!Array.isArray(aData)) {
-         aData = [];
-      }
-        var oNewProduct = {
-        ProductName: "New Product",
+            this._openProductDialog();
+        },
+        _openProductDialog: function () {
+            if (!this._oProductDialog) {
+                this._oProductDialog = new SelectDialog({
+                    title: "Select Product",
+                    multiSelect: false,
+                    liveChange: this.onProductSearch.bind(this),
+                    search: this.onProductSearch.bind(this),
+                    confirm: this.onProductConfirm.bind(this),
+                    cancel: this.onProductCancel.bind(this)
+                });
+
+                this.getView().addDependent(this._oProductDialog);
+
+                this._oProductDialog.bindAggregation("items", {
+                    path: "/Products",
+                    template: new StandardListItem({
+                        title: "{ProductName}",
+                        description: "{ProductCode}"
+                    })
+                });
+            }
+            
+                var oBinding = this._oProductDialog.getBinding("items");
+                    if (oBinding) {
+                        oBinding.filter([]);
+                    }
+            this._oProductDialog.open();
+        },
+        
+        onProductSearch: function (oEvent) {
+        var sValue = oEvent.getParameter("value") || "";
+         var oBinding = oEvent.getSource().getBinding("items");
+        if (!oBinding) return;
+
+         if (!sValue) {
+        oBinding.filter([]);
+        return;
+         }
+          var oFilter = new Filter({
+        filters: [
+            new Filter("ProductName", FilterOperator.Contains, sValue),
+            new Filter("ProductCode", FilterOperator.Contains, sValue)
+        ],
+        and: false
+          });
+          oBinding.filter([oFilter]);
+        },
+        onProductConfirm: function (oEvent) {
+         var oItem = oEvent.getParameter("selectedItem");
+        if (!oItem) return;
+
+        // default model provides /Products
+          var oProd = oItem.getBindingContext().getObject();
+
+          var oProductsModel = this.getView().getModel("products");
+          var aProducts = oProductsModel.getData() || [];
+
+         // duplicate check
+         var bExists = aProducts.some(function (p) {
+        return p.ProductCode === oProd.ProductCode;
+         });
+         if (bExists) {
+        MessageBox.error("Product is already added.");
+        return;
+         }
+
+          aProducts.push({
+        ProductCode: oProd.ProductCode,
+        ProductName: oProd.ProductName,
         Quantity: 1,
-        PricePerQuantity: 0
-        };
-        aData.push(oNewProduct);
-        oModel.setData(aData);
+        PricePerQuantity: oProd.PricePerQuantity
+          });
+
+         oProductsModel.setData(aProducts);
+         oProductsModel.refresh(true); 
+         this._updateProductTitle();
+         MessageToast.show("Product added.");
+        },
+
+        onProductCancel: function () {
+         // no action made
+        },
+        //dynamic function on the Product header
+        _updateProductTitle: function () {
+            var aProducts = this.getView().getModel("products").getData() || [];
+              var sText = aProducts.length === 1
+                  ? "Product (1)"
+                 : "Products (" + aProducts.length + ")";
+            this.byId("productHeaderTableTitle").setText(sText);
+        },
+        // Table validation before Saving
+        _validateBeforeSave: function () {
+            var oModel = this.getView().getModel("products"); 
+            var aProducts = oModel.getData() || [];
+            if (aProducts.length === 0) {
+            MessageBox.error("Please add at least one product before saving.");
+            return false;
+              }
+                 var bInvalid = aProducts.some(function (p) {
+                 return !p.Quantity || Number(p.Quantity) <= 0; 
+              });
+             if (bInvalid) {
+             MessageBox.error("Quantity must be greater than 0.");
+                return false;
+                }
+             return true;
+
         }
     });
 });
