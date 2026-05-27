@@ -11,16 +11,25 @@ sap.ui.define([
     return Controller.extend("sapips.training.casestudygrp1.controller.Mainpage", {
 
         onInit: function () {
-            this._updateTableTitle();
+            var oTable = this.byId("ordersTable");
+            if (oTable) {
+                // Trigger after data is loaded/rendered
+                oTable.attachUpdateFinished(this._updateTableTitle.bind(this));
+            }
+
         },
 
         // Update Table Title
         _updateTableTitle: function () {
             var oTable = this.byId("ordersTable");
             var oBinding = oTable.getBinding("items");
-            var iCount = oBinding ? oBinding.getLength() : 0;
-            this.byId("tableTitle").setText("Orders (" + iCount + ")");
+
+            if (oBinding) {
+                var iCount = oBinding.getLength();
+                this.byId("tableTitle").setText("Orders (" + iCount + ")");
+            }
         },
+
 
         // Search / Filter
         onSearch: function () {
